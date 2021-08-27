@@ -27,12 +27,12 @@
 #include "tusb_option.h"
 
 #if TUSB_OPT_DEVICE_ENABLED && \
-    (CFG_TUSB_MCU == OPT_MCU_LPC18XX || CFG_TUSB_MCU == OPT_MCU_LPC43XX || CFG_TUSB_MCU == OPT_MCU_MIMXRT10XX)
+    (CFG_TUSB_MCU == OPT_MCU_LPC18XX || CFG_TUSB_MCU == OPT_MCU_LPC43XX || CFG_TUSB_MCU == OPT_MCU_MIMXRT10XX || CFG_TUSB_MCU == OPT_MCU_MIMXRT11XX)
 
 //--------------------------------------------------------------------+
 // INCLUDE
 //--------------------------------------------------------------------+
-#if CFG_TUSB_MCU == OPT_MCU_MIMXRT10XX
+#if CFG_TUSB_MCU == OPT_MCU_MIMXRT10XX || CFG_TUSB_MCU == OPT_MCU_MIMXRT11XX
   #include "fsl_device_registers.h"
   #define INCLUDE_FSL_DEVICE_REGISTERS
 #else
@@ -162,7 +162,16 @@ typedef struct
       { .regs = (dcd_registers_t*) USB2_BASE, .irqnum = USB_OTG2_IRQn, .ep_count = 8 }
     #endif
   };
+#elif CFG_TUSB_MCU == OPT_MCU_MIMXRT11XX
+  // Each endpoint with direction (IN/OUT) occupies a queue head
+  // Therefore QHD_MAX is 2 x max endpoint count
+  #define QHD_MAX  (8*2)
 
+  static const dcd_controller_t _dcd_controller[] =
+  {
+    { .regs = (dcd_registers_t*) USB_OTG1_BASE, .irqnum = USB_OTG1_IRQn, .ep_count = 8 },
+    { .regs = (dcd_registers_t*) USB_OTG1_BASE, .irqnum = USB_OTG2_IRQn, .ep_count = 8 }
+  };  
 #else
   static const dcd_controller_t _dcd_controller[] =
   {
