@@ -89,6 +89,7 @@
 
 // NXP iMX RT
 #define OPT_MCU_MIMXRT10XX        700 ///< NXP iMX RT10xx
+#define OPT_MCU_MIMXRT11XX        701 ///< NXP iMX RT11xx
 
 // Nuvoton
 #define OPT_MCU_NUC121            800

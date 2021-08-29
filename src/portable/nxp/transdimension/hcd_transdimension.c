@@ -29,12 +29,12 @@
 // NXP Trans-Dimension USB IP implement EHCI for host functionality
 
 #if TUSB_OPT_HOST_ENABLED && \
-    (CFG_TUSB_MCU == OPT_MCU_LPC18XX || CFG_TUSB_MCU == OPT_MCU_LPC43XX || CFG_TUSB_MCU == OPT_MCU_MIMXRT10XX)
+    (CFG_TUSB_MCU == OPT_MCU_LPC18XX || CFG_TUSB_MCU == OPT_MCU_LPC43XX || CFG_TUSB_MCU == OPT_MCU_MIMXRT10XX || CFG_TUSB_MCU == OPT_MCU_MIMXRT11XX)
 
 //--------------------------------------------------------------------+
 // INCLUDE
 //--------------------------------------------------------------------+
-#if CFG_TUSB_MCU == OPT_MCU_MIMXRT10XX
+#if CFG_TUSB_MCU == OPT_MCU_MIMXRT10XX || CFG_TUSB_MCU == OPT_MCU_MIMXRT11XX
   #include "fsl_device_registers.h"
 #else
   // LPCOpen for 18xx & 43xx
@@ -67,7 +67,12 @@ typedef struct
       { .regs_base = USB2_BASE, .irqnum = USB_OTG2_IRQn }
     #endif
   };
-
+#elif CFG_TUSB_MCU == OPT_MCU_MIMXRT11XX
+  static const hcd_controller_t _hcd_controller[] =
+  {
+    { .regs = (dcd_registers_t*) USB_OTG1_BASE, .irqnum = USB_OTG1_IRQn, .ep_count = 8 },
+    { .regs = (dcd_registers_t*) USB_OTG2_BASE, .irqnum = USB_OTG2_IRQn, .ep_count = 8 }
+  };  
 #else
   static const hcd_controller_t _hcd_controller[] =
   {

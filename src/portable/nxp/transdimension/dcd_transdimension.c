@@ -170,7 +170,7 @@ typedef struct
   static const dcd_controller_t _dcd_controller[] =
   {
     { .regs = (dcd_registers_t*) USB_OTG1_BASE, .irqnum = USB_OTG1_IRQn, .ep_count = 8 },
-    { .regs = (dcd_registers_t*) USB_OTG1_BASE, .irqnum = USB_OTG2_IRQn, .ep_count = 8 }
+    { .regs = (dcd_registers_t*) USB_OTG2_BASE, .irqnum = USB_OTG2_IRQn, .ep_count = 8 }
   };  
 #else
   static const dcd_controller_t _dcd_controller[] =
