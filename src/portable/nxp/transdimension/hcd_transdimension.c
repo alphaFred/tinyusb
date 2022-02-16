@@ -70,8 +70,8 @@ typedef struct
 #elif CFG_TUSB_MCU == OPT_MCU_MIMXRT11XX
   static const hcd_controller_t _hcd_controller[] =
   {
-    { .regs = (dcd_registers_t*) USB_OTG1_BASE, .irqnum = USB_OTG1_IRQn, .ep_count = 8 },
-    { .regs = (dcd_registers_t*) USB_OTG2_BASE, .irqnum = USB_OTG2_IRQn, .ep_count = 8 }
+    { .regs_base = (dcd_registers_t*) USB_OTG1_BASE, .irqnum = USB_OTG1_IRQn},
+    { .regs_base = (dcd_registers_t*) USB_OTG2_BASE, .irqnum = USB_OTG2_IRQn}
   };  
 #else
   static const hcd_controller_t _hcd_controller[] =
